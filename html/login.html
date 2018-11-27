@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>开始使用layui</title>
+    <title>员工加班管理系统</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
-    <script src="../layui/layui.js"></script>
     <style>
         * {
             margin: 0;
@@ -16,17 +15,16 @@
             margin: 0 auto;
             width: 350px;
             padding-top: 200px;
-            /*position: fixed;*/
-            /*top: 400px;*/
-            /*left: 400px;*/
         }
     </style>
 </head>
+<script src="../layui/layui.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
 <body>
 <div class="main">
-    <form class="layui-form" action="#">
+    <form class="layui-form" method="post" id="login_form">
         <div class="layui-form-item">
-            <label class="layui-form-label">输入框</label>
+            <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
                 <input type="text" name="name" required lay-verify="required" placeholder="请输入用户名（自己名字）"
                        autocomplete="off"
@@ -34,7 +32,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">密码框</label>
+            <label class="layui-form-label">密 码</label>
             <div class="layui-input-inline">
                 <input type="text" name="password" required lay-verify="required" placeholder="请输入密码"
                        autocomplete="off"
@@ -45,7 +43,7 @@
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="login">立即提交</button>
+                <button class="layui-btn" lay-submit lay-filter="login">登录</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -55,35 +53,38 @@
 
 <script>
     //Demo
-    layui.use(['form', 'jquery'], function () {
+    layui.use(['form', 'jquery', 'layer'], function () {
         let $ = layui.jquery;
         let form = layui.form;
+        let layer = layui.layer;
         //监听提交
-        form.on('submit(login)', function (data) {
-            alert(JSON.stringify(data.field))
-            $(document).ready(function () {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/login",
-                    data: JSON.stringify(data.field),
-                    dataType: "json",
-                    contentType: 'application/json',
-                    success: function (data) {
-                        console.info(data);
-
-                    },
-                    error: function (event) {
-                        alert(event);
+        form.on('submit()', function (data) {
+            console.log(JSON.stringify(data.field));
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.31.86:8080/login",
+                data: JSON.stringify(data.field),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function (data) {
+                    // console.info("data: " + JSON.stringify(data));
+                    console.log(data.code);
+                    if (data.code == 0) {
+                        layer.msg("登录成功");
+                        window.location.href = "/html/index.html";
+                    } else {
+                        layer.msg("用户名或密码错误，请重新输入");
                     }
-
-
-                });
+                },
+                error: function (event) {
+                    layer.msg("系统异常");
+                }
             });
-            window.location.href = "http://www.baidu.com";
-
-
+            return false;
         });
-    });
+    })
+
+
 </script>
 
 
