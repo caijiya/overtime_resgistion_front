@@ -28,11 +28,13 @@
             <li class="layui-nav-item"><a href="">加班记录</a></li>
             <li class="layui-nav-item" style="float: right">
                 <a id="current_user"><img src="https://yangyang-bucket.oss-cn-beijing.aliyuncs.com/jz.jpg"
-                                          class="layui-nav-img">赵阳</a>
+                                          class="layui-nav-img">
+                    <p id="user" style="display: inline"></p></a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;">修改信息</a></dd>
                     <dd><a href="javascript:;">安全管理</a></dd>
-                    <dd><a href="/html/login.html">退了</a></dd>
+                    <!--<dd><a href="/html/login.html">退了</a></dd>-->
+                    <dd><a href="javascript:void(0)" onclick="logout()">退出</a></dd>
                 </dl>
             </li>
         </ul>
@@ -95,9 +97,8 @@
                     }
                 }
                 let username = $.cookie("username");
-                alert(username)
-
-
+                console.log(username)
+                $("#user").text(username);
             }
 
         });
