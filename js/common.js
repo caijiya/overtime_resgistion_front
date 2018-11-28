@@ -1,3 +1,31 @@
 function getBackUrl(relativePath) {
     return "http://localhost:8080" + relativePath;
 }
+
+(function (arr, options) {
+    if (!arr || !arr.length) {
+        return;
+    }
+    let index = 0;
+    document.documentElement.addEventListener('click', function (event) {
+        let x = event.pageX, y = event.pageY;
+        let eleText = document.createElement('span');
+        eleText.className = 'text-popup';
+        this.appendChild(eleText);
+        if (arr[index]) {
+            eleText.innerHTML = arr[index];
+        } else {
+            index = 0;
+            eleText.innerHTML = arr[0];
+        }
+        // 动画结束后删除自己
+        eleText.addEventListener('animationend', function () {
+            eleText.parentNode.removeChild(eleText);
+        });
+        // 位置
+        eleText.style.left = (x - eleText.clientWidth / 2) + 'px';
+        eleText.style.top = (y - eleText.clientHeight) + 'px';
+        // index递增
+        index++;
+    });
+})(['富强', '民主', '文明', '和谐', '自由', '平等', '公正', '法治', '爱国', '敬业', '诚信', '友善']);

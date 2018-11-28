@@ -2,26 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>员工加班管理系统</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script src="../layui/layui.js"></script>
     <script src="../js/common.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /*#current_user:hover + .layui-nav-child {*/
+        /*display: inline-block;*/
+        /*background-color: grey;*/
+        /*top: 30px;*/
+        /*}*/
+    </style>
 </head>
 <body>
 <div class="layui-container">
     <div class="layui-row">
-        <ul class="layui-nav" lay-filter="">
+        <ul class="layui-nav" lay-filter="nav">
             <li class="layui-nav-item" style="margin-left: 20px"><p style="font-size: 20px;color: #007DDB">加班管理系统</p>
             </li>
             <li class="layui-nav-item layui-this" style="margin-left: 50px"><a href="">加班概览</a></li>
             <li class="layui-nav-item "><a href="">加班申请</a></li>
             <li class="layui-nav-item"><a href="">加班记录</a></li>
             <li class="layui-nav-item" style="float: right">
-                <a id="current_user" href=""><img src="https://yangyang-bucket.oss-cn-beijing.aliyuncs.com/jz.jpg"
-                                                  class="layui-nav-img">赵阳</a>
+                <a id="current_user"><img src="https://yangyang-bucket.oss-cn-beijing.aliyuncs.com/jz.jpg"
+                                          class="layui-nav-img">赵阳</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;">安全管理</a></dd>
+                    <dd><a href="/html/login.html">退了</a></dd>
+                </dl>
             </li>
         </ul>
+
+
     </div>
+    <div style="width: auto;height: 35px"></div>
+    <div class="demoTable">
+        搜索姓名：
+        <div class="layui-inline">
+            <input class="layui-input" name="name" id="name" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;搜索性别：
+        <div class="layui-inline">
+            <input class="layui-input" name="sex" id="sex" autocomplete="off">
+        </div>
+        <div class="layui-btn" data-type="reload">搜索</div>
+    </div>
+    <div style="width: auto;height: 30px"></div>
+
     <table id="table" lay-filter="test"></table>
     <div id="page"></div>
 </div>
@@ -30,16 +59,23 @@
 </body>
 </html>
 <script>
-    layui.use(['table', 'laypage', 'jquery'], function () {
+    layui.use(['table', 'jquery', 'layer', 'element'], function () {
+
         let table = layui.table;
-        let laypage = layui.laypage;
         let $ = layui.jquery;
+        let layer = layui.layer;
+        let element = layui.element;
+        //导航栏的hover效果依赖element模块
+        element.on('nav(nav)', function (elem) {
+            return;
+        });
 
         table.render({
             elem: '#table'
             , height: 500
             , url: getBackUrl("/getOverTimeList") //数据接口
             , page: true //开启分页
+            , id: 'testReload'
             , cols: [
                 [ //表头
                     {field: 'employee_id', title: 'ID', width: 284.5, sort: true, fixed: 'left'}
@@ -49,22 +85,36 @@
                 ]
             ],
             done: function (res, curr, count) {
-                // laypage.render({
-                //     elem: 'page', //注意，这里的 test1 是 ID，不用加 # 号
-                //     count: res.data.length, //数据总数，从服务端得到
-                //     limit: 2,
-                //     limits: [2, 30, 50],
-                //     jump: function (obj, first) {
-                //         //obj包含了当前分页的所有参数，比如：
-                //         //首次不执行
-                //         if (!first) {
-                //             //do something
-                //         }
-                //     }
-                //
-                // });
+                if (res.code !== 0) {
+                    layer.msg(res.message);
+                    if (res.code === 1001 || res.code === 1002) {
+                        window.location.href = "/html/login.html";
+                    }
+                }
+
             }
 
+        });
+
+        var active = {
+            reload: function () {
+                var name = $('#name');
+                let sex = $('#sex');
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        name: name.val()
+                        , sex: sex.val()
+                    }
+                })
+                ;
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
         });
 
 
