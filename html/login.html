@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>员工加班管理系统</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../js/common.js"></script>
     <style>
         * {
             margin: 0;
@@ -64,10 +65,11 @@
             console.log(JSON.stringify(data.field));
             $.ajax({
                 type: "POST",
-                url: "http://192.168.31.86:8080/login",
+                url: getBackUrl("/login"),
                 data: JSON.stringify(data.field),
                 dataType: "json",
                 contentType: 'application/json',
+                xhrFields: {withCredentials: true},
                 success: function (data) {
                     // console.info("data: " + JSON.stringify(data));
                     console.log(data.code);

@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script src="../layui/layui.js"></script>
     <script src="../js/common.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
     <link rel="stylesheet" href="../css/style.css">
     <style>
         /*#current_user:hover + .layui-nav-child {*/
@@ -59,7 +61,7 @@
 </body>
 </html>
 <script>
-    layui.use(['table', 'jquery', 'layer', 'element'], function () {
+    layui.use(['table', 'layer', 'element'], function () {
 
         let table = layui.table;
         let $ = layui.jquery;
@@ -73,7 +75,7 @@
         table.render({
             elem: '#table'
             , height: 500
-            , url: getBackUrl("/getOverTimeList") //数据接口
+            , url: getBackUrl("/employee") //数据接口
             , page: true //开启分页
             , id: 'testReload'
             , cols: [
@@ -87,18 +89,22 @@
             done: function (res, curr, count) {
                 if (res.code !== 0) {
                     layer.msg(res.message);
+                    //未登陆
                     if (res.code === 1001 || res.code === 1002) {
                         window.location.href = "/html/login.html";
                     }
                 }
+                let username = $.cookie("username");
+                alert(username)
+
 
             }
 
         });
 
-        var active = {
+        let active = {
             reload: function () {
-                var name = $('#name');
+                let name = $('#name');
                 let sex = $('#sex');
                 table.reload('testReload', {
                     page: {
@@ -113,7 +119,7 @@
             }
         };
         $('.demoTable .layui-btn').on('click', function () {
-            var type = $(this).data('type');
+            let type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
 

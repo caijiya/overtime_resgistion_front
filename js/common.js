@@ -1,5 +1,5 @@
 function getBackUrl(relativePath) {
-    return "http://localhost:8080" + relativePath;
+    return "http://172.18.31.12:8888" + relativePath;
 }
 
 (function (arr, options) {
