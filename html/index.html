@@ -23,9 +23,9 @@
         <ul class="layui-nav" lay-filter="nav">
             <li class="layui-nav-item" style="margin-left: 20px"><p style="font-size: 20px;color: #007DDB">加班管理系统</p>
             </li>
-            <li class="layui-nav-item layui-this" style="margin-left: 50px"><a href="">加班概览</a></li>
-            <li class="layui-nav-item "><a href="">加班申请</a></li>
-            <li class="layui-nav-item"><a href="">加班记录</a></li>
+            <li class="layui-nav-item layui-this" style="margin-left: 50px"><a href="/html/index.html">加班概览</a></li>
+            <li class="layui-nav-item "><a href="/html/apply.html">加班申请</a></li>
+            <li class="layui-nav-item"><a href="/html/log.html">加班记录</a></li>
             <li class="layui-nav-item" style="float: right">
                 <a id="current_user"><img src="https://yangyang-bucket.oss-cn-beijing.aliyuncs.com/jz.jpg"
                                           class="layui-nav-img">
@@ -98,7 +98,7 @@
                 }
                 let username = $.cookie("username");
                 console.log(username)
-                $("#user").text(username);
+                $("#user").text(b64DecodeUnicode(username.replace(" ", "+")));
             }
 
         });

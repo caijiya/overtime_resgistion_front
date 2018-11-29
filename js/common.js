@@ -2,7 +2,7 @@ let workAddress = "http://172.18.31.12:8888";
 let homeAddress = "http://192.168.31.86:8888";
 
 function getBackUrl(relativePath) {
-    return homeAddress + relativePath;
+    return workAddress + relativePath;
 }
 
 function route(data) {
@@ -32,11 +32,13 @@ function logout() {
     });
 }
 
-// function b64DecodeUnicode(str) {
-//     return decodeURIComponent(atob(str).split('').map(function (c) {
-//         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-//     }).join(''));
-// }
+//base64解码
+function b64DecodeUnicode(str) {
+    return decodeURIComponent(atob(str).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
 //
 // function b64EncodeUnicode(str) {
 //     return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {

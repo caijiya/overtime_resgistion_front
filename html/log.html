@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>员工加班管理系统</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .layui-form-label {
+            width: 118px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <ul class="layui-nav" lay-filter="nav">
+            <li class="layui-nav-item" style="margin-left: 20px"><p style="font-size: 20px;color: #007DDB">加班管理系统</p>
+            </li>
+            <li class="layui-nav-item" style="margin-left: 50px"><a href="/html/index.html">加班概览</a></li>
+            <li class="layui-nav-item "><a href="/html/apply.html">加班申请</a></li>
+            <li class="layui-nav-item layui-this"><a href="/html/log.html">加班记录</a></li>
+            <li class="layui-nav-item" style="float: right">
+                <a id="current_user"><img src="https://yangyang-bucket.oss-cn-beijing.aliyuncs.com/jz.jpg"
+                                          class="layui-nav-img">
+                    <p id="user" style="display: inline"></p></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;">安全管理</a></dd>
+                    <!--<dd><a href="/html/login.html">退了</a></dd>-->
+                    <dd><a href="javascript:void(0)" onclick="logout()">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+
+    </div>
+    <div style="width: auto;height: 35px"></div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+        <legend>加班记录</legend>
+    </fieldset>
+    <ul class="layui-timeline" id="view">
+
+
+    </ul>
+
+</div>
+
+
+</body>
+</html>
+<script>
+    layui.use(['laytpl', 'jquery', 'layer'], function () {
+        let laytpl = layui.laytpl;
+        let $ = layui.jquery;
+        let layer = layui.layer;
+        // let data = {
+        //     "list": [{
+        //         "starttime": "starttime",
+        //         "endtime": "endtime",
+        //         "overtime_hours": "2.0",
+        //         "reason": "原因"
+        //     }, {
+        //         "starttime": "starttime",
+        //         "endtime": "endtime",
+        //         "overtime_hours": "2.0",
+        //         "reason": "原因"
+        //     }, {"starttime": "starttime", "endtime": "endtime", "overtime_hours": "2.0", "reason": "原因"}]
+        // };
+
+        $.ajax({
+            type: "GET",
+            url: getBackUrl("/apply"),
+            dataType: "json",
+            contentType: 'application/json',
+            xhrFields: {withCredentials: true},
+            success: function (data) {
+                console.log(data)
+                if (data.code !== 0) {
+                    layer.msg("获取日志失败，请重新尝试或者联系系统管理员");
+                    //未登陆
+                    if (data.code === 1001 || data.code === 1002) {
+                        layer.msg("回话过期，请重新登陆");
+                        window.location.href = "/html/login.html";
+                    }
+                }
+                let getTpl = demo.innerHTML
+                    , view = document.getElementById('view');
+                laytpl(getTpl).render(data, function (html) {
+                    view.innerHTML = html;
+                });
+
+            },
+            error: function (event) {
+                layer.msg("系统异常");
+            }
+        });
+    });
+
+</script>
+<script id="demo" type="text/html">
+    {{# layui.each(d.data, function(index, item){ }}
+    <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <h3 class="layui-timeline-title">{{ item.starttime || '未知'}}---{{ item.endtime || '未知'}}
+                {{item.employee_name}}
+            </h3>
+            <p>
+                加班 {{item.overtime_hours}}小时，原因:{{item.overtime_reason || '无'}}
+            </p>
+        </div>
+    </li>
+    {{# }); }}
+</script>
+

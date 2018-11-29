@@ -2,9 +2,181 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>员工加班管理系统</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .layui-form-label {
+            width: 118px;
+        }
+    </style>
 </head>
 <body>
+<div class="layui-container">
+    <div class="layui-row">
+        <ul class="layui-nav" lay-filter="nav">
+            <li class="layui-nav-item" style="margin-left: 20px"><p style="font-size: 20px;color: #007DDB">加班管理系统</p>
+            </li>
+            <li class="layui-nav-item" style="margin-left: 50px"><a href="/html/index.html">加班概览</a></li>
+            <li class="layui-nav-item  layui-this"><a href="/html/apply.html">加班申请</a></li>
+            <li class="layui-nav-item"><a href="/html/log.html">加班记录</a></li>
+            <li class="layui-nav-item" style="float: right">
+                <a id="current_user"><img src="https://yangyang-bucket.oss-cn-beijing.aliyuncs.com/jz.jpg"
+                                          class="layui-nav-img">
+                    <p id="user" style="display: inline"></p></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;">安全管理</a></dd>
+                    <!--<dd><a href="/html/login.html">退了</a></dd>-->
+                    <dd><a href="javascript:void(0)" onclick="logout()">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+
+    </div>
+    <div style="width: auto;height: 35px"></div>
+
+    <fieldset class="layui-elem-field">
+        <legend>加班登记</legend>
+        <div class="layui-field-box">
+            <form class="layui-form layui-form-pane" id="apply_form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开始时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="starttime" id="starttime" autocomplete="off" class="layui-input"
+                               style="width: 273px;" placeholder="yyyy-MM-dd HH:mm:ss">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="position: relative">
+                    <label class="layui-form-label">结束时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="endtime" id="endtime" autocomplete="off" class="layui-input"
+                               style="width: 273px;" placeholder="yyyy-MM-dd HH:mm:ss">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">时间（小时）</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="overtime_hours" lay-verify="title" autocomplete="off"
+                               placeholder="请输入（必填）"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">加班原因</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="overtime_reason" lay-verify="title" autocomplete="off"
+                               placeholder="请输入（必填），随便填个表面原因意思一下"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">审批人</label>
+                        <div class="layui-input-inline">
+                            <select name="approver" id="approver">
+                                <option value="黄金龙" selected>黄金龙</option>
+                                <optgroup label="数据组组长">
+                                    <option value="张磊">张磊</option>
+                                </optgroup>
+                                <optgroup label="java组组长">
+                                    <option value="李寒冬">李寒冬</option>
+                                    <option value="曹强周">曹强周</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">抄送人</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="send_person" lay-verify="title" autocomplete="off"
+                               placeholder="黄金龙"
+                               class="layui-input layui-disabled" value="黄金龙">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" lay-submit lay-filter="apply_form">申请</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </fieldset>
+
+</div>
+
 
 </body>
 </html>
+<script>
+    layui.use(['form', 'laydate', 'jquery', 'layer'], function () {
+        let form = layui.form;
+        let layDate = layui.laydate;
+        let $ = layui.jquery;
+        let layer = layui.layer;
+
+        //日期
+        layDate.render({
+            elem: '#starttime'
+        });
+        layDate.render({
+            elem: '#endtime'
+        });
+
+
+        //监听提交
+        form.on('submit(apply_form)', function (data) {
+            let json = data.field;
+            json.approver = $('#approver option:selected').val();
+            json.send_person = $('input[name = "send_person"]').val();
+            console.log(json);
+            $.ajax({
+                type: "POST",
+                url: getBackUrl("/apply"),
+                data: JSON.stringify(json),
+                dataType: "json",
+                contentType: 'application/json',
+                xhrFields: {withCredentials: true},
+                success: function (data) {
+                    if (data.code !== 0) {
+                        layer.msg("申请提交失败，请重新提交或者联系系统管理员");
+                        //未登陆
+                        if (data.code === 1001 || data.code === 1002) {
+                            layer.msg("回话过期，请重新登陆");
+                            window.location.href = "/html/login.html";
+                        }
+                    }
+                    layer.msg("申请提交成功，请返回概览页面进行查看");
+                },
+                error: function (event) {
+                    layer.msg("系统异常");
+                }
+            });
+            return false;
+        });
+
+        // //表单初始赋值
+        // form.val('example', {
+        //     "username": "贤心" // "name": "value"
+        //     , "password": "123456"
+        //     , "interest": 1
+        //     , "like[write]": true //复选框选中状态
+        //     , "close": true //开关状态
+        //     , "sex": "女"
+        //     , "desc": "我爱 layui"
+        // })
+
+
+    });
+
+</script>
