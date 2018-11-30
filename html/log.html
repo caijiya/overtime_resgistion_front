@@ -59,20 +59,9 @@
         let laytpl = layui.laytpl;
         let $ = layui.jquery;
         let layer = layui.layer;
-        // let data = {
-        //     "list": [{
-        //         "starttime": "starttime",
-        //         "endtime": "endtime",
-        //         "overtime_hours": "2.0",
-        //         "reason": "原因"
-        //     }, {
-        //         "starttime": "starttime",
-        //         "endtime": "endtime",
-        //         "overtime_hours": "2.0",
-        //         "reason": "原因"
-        //     }, {"starttime": "starttime", "endtime": "endtime", "overtime_hours": "2.0", "reason": "原因"}]
-        // };
-
+        let username = $.cookie("username");
+        console.log(username)
+        $("#user").text(b64DecodeUnicode(username.replace(" ", "+")));
         $.ajax({
             type: "GET",
             url: getBackUrl("/apply"),
@@ -85,7 +74,7 @@
                     layer.msg("获取日志失败，请重新尝试或者联系系统管理员");
                     //未登陆
                     if (data.code === 1001 || data.code === 1002) {
-                        layer.msg("回话过期，请重新登陆");
+                        layer.msg("会话过期，请重新登陆");
                         window.location.href = "/html/login.html";
                     }
                 }
@@ -107,12 +96,13 @@
     {{# layui.each(d.data, function(index, item){ }}
     <li class="layui-timeline-item">
         <i class="layui-icon layui-timeline-axis"></i>
-        <div class="layui-timeline-content layui-text">
-            <h3 class="layui-timeline-title">{{ item.starttime || '未知'}}---{{ item.endtime || '未知'}}
-                {{item.employee_name}}
-            </h3>
-            <p>
-                加班 {{item.overtime_hours}}小时，原因:{{item.overtime_reason || '无'}}
+        <div class="layui-timeline-content layui-text" style="color: #FF5722 ">
+            <h4 class="layui-timeline-title" style="color: #1E9FFF">{{ item.starttime || '未知'}}&nbsp;至&nbsp;{{
+                item.endtime || '未知'}}&nbsp;&nbsp;
+                <b>{{item.employee_name}}</b>
+            </h4>
+            <p style="font-size: 28px">
+                加班:&nbsp;&nbsp; {{item.overtime_hours}}小时，原因:&nbsp;&nbsp;{{item.overtime_reason || '无'}}
             </p>
         </div>
     </li>
