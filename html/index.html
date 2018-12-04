@@ -29,7 +29,8 @@
             <li class="layui-nav-item" style="float: right">
                 <a id="current_user"><img src="https://yangyang-bucket.oss-cn-beijing.aliyuncs.com/jz.jpg"
                                           class="layui-nav-img">
-                    <p id="user" style="display: inline"></p></a>
+                    <p id="user" style="display: inline"></p><span class="layui-badge"
+                                                                   style="right: 117px;">9</span></a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;">修改信息</a></dd>
                     <dd><a href="javascript:;">安全管理</a></dd>
@@ -95,7 +96,7 @@
             , id: 'testReload'
             , cols: [
                 [
-                    {checkbox: true, fixed: 'left'}
+                    {radio: true, fixed: 'left'}
                     , {field: 'id', title: 'ID', width: 230, sort: true}
                     , {field: 'name', title: '姓名', width: 230}
                     , {field: 'sex', title: '性别', width: 180}
