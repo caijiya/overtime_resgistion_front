@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>员工加班管理系统</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /*#current_user:hover + .layui-nav-child {*/
+        /*display: inline-block;*/
+        /*background-color: grey;*/
+        /*top: 30px;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <ul class="layui-nav" lay-filter="nav">
+            <li class="layui-nav-item" style="margin-left: 20px"><p style="font-size: 20px;color: #007DDB">加班管理系统</p>
+            </li>
+            <li class="layui-nav-item layui-this" style="margin-left: 50px"><a href="/html/index.html">加班概览</a></li>
+            <li class="layui-nav-item "><a href="/html/apply.html">加班申请</a></li>
+            <li class="layui-nav-item"><a href="/html/log.html">加班记录</a></li>
+            <li class="layui-nav-item" style="float: right">
+                <a id="current_user"><img src="https://yangyang-bucket.oss-cn-beijing.aliyuncs.com/jz.jpg"
+                                          class="layui-nav-img">
+                    <p id="user" style="display: inline"></p></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;">安全管理</a></dd>
+                    <!--<dd><a href="/html/login.html">退了</a></dd>-->
+                    <dd><a href="javascript:void(0)" onclick="logout()">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+
+
+    </div>
+    <div style="width: auto;height: 35px"></div>
+
+
+    <div class="layui-btn-group demoTable">
+        <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+        <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+        <button class="layui-btn" data-type="isAll">验证是否全选</button>
+    </div>
+    <div style="width: auto;height: 30px"></div>
+
+    <table class="layui-table"
+           lay-data="{width: 892, height:800, url:'http://172.18.31.12:8888/employee', page:true, id:'idTest'}"
+           lay-filter="demo">
+        <thead>
+        <tr>
+            <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+            <th lay-data="{field:'id', width:234, sort: true, fixed: true,align:'center'}">ID</th>
+            <th lay-data="{field:'name', width:234,align:'center'}">用户名</th>
+            <th lay-data="{field:'sex', width:234,align:'center'}">性别</th>
+            <th lay-data="{field:'overtime', width:234, sort: true,align:'center'}">总加班时间</th>
+            <th lay-data="{fixed: 'right', width:200, align:'center', toolbar: '#barDemo'}"></th>
+        </tr>
+        </thead>
+    </table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn  layui-btn-xs" lay-event="detail">查看</a>
+    </script>
+
+    <!--<div id="page"></div>-->
+</div>
+
+
+</body>
+</html>
+<script>
+    layui.use('table', function () {
+        let table = layui.table;
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function (obj) {
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(demo)', function (obj) {
+            console.log(obj)
+            let data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data))
+            }
+        });
+
+        let $ = layui.$, active = {
+            getCheckData: function () { //获取选中数据
+                let checkStatus = table.checkStatus('idTest')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            , getCheckLength: function () { //获取选中数目
+                let checkStatus = table.checkStatus('idTest')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                let checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
