@@ -52,6 +52,7 @@
         <div class="layui-inline">
             <input class="layui-input" name="sex" id="sex" autocomplete="off">
         </div>
+        <input type="hidden" name="hiddenData" id="hidden">
         <div class="layui-btn" data-type="reload">搜索</div>
     </div>
     <div style="width: auto;height: 30px"></div>
@@ -68,6 +69,7 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn layui-btn-xs" lay-event="del">查看</a>
     </script>
     <div id="page"></div>
 </div>
@@ -96,25 +98,17 @@
             , id: 'testReload'
             , cols: [
                 [
-                    {radio: true, fixed: 'left'}
-                    , {field: 'id', title: 'ID', width: 230, sort: true}
-                    , {field: 'name', title: '姓名', width: 230}
+                    {checkbox: true, fixed: 'left'}
+                    , {field: 'employee_id', title: 'ID', width: 130, sort: true}
+                    , {field: 'employee_name', title: '姓名', width: 180}
                     , {field: 'sex', title: '性别', width: 180}
                     , {field: 'overtime', title: '总加班时间', width: 180, sort: true}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 230}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
                 ]
             ],
-            // table.render({
-            //     elem: '#table'
-            //     , url: getBackUrl("/employee")
-            //     , cols: [[ //标题栏
-            //         {checkbox: true}
-            //
-            //         , {field: 'id', title: 'ID', width: 80}
-            //         , {field: 'username', title: '用户名', width: 120}
-            //     ]],
 
             done: function (res, curr, count) {
+                console.log(res)
                 if (res.code !== 0) {
                     layer.msg(res.message);
                     //未登陆
@@ -129,7 +123,7 @@
 
         });
         //头工具栏事件
-        table.on('toolbar(test)', function (obj) {
+        table.on('toolbar(testReload)', function (obj) {
             let checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
                 case 'getCheckData':
@@ -147,24 +141,52 @@
             ;
         });
         //监听行工具事件
-        table.on('tool(test)', function (obj) {
+        table.on('tool(testReload)', function (obj) {
             let data = obj.data;
-            //console.log(obj)
+            console.log(data)
             if (obj.event === 'del') {
                 layer.confirm('真的删除行么', function (index) {
-                    obj.del();
-                    layer.close(index);
+                    $.ajax({
+                        type: "DELETE",
+                        url: getBackUrl("/employee") + "/" + obj.data.employee_id,
+                        dataType: "json",
+                        contentType: 'application/json',
+                        xhrFields: {withCredentials: true},
+                        success: function (data) {
+                            // console.info("data: " + JSON.stringify(data));
+                            console.log(data.code);
+                            if (data.code == 0) {
+                                obj.del();
+                                layer.close(index);
+                            } else {
+                                layer.msg("这个怕是永远都不能弹出了啊");
+                            }
+                        },
+                        error: function (event) {
+                            layer.msg("系统异常");
+                        }
+                    });
+
                 });
             } else if (obj.event === 'edit') {
-                layer.prompt({
-                    formType: 2
-                    , value: data.email
-                }, function (value, index) {
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
+                $("input[name=hiddenData]").val(JSON.stringify(data));
+                layer.open({
+                    type: 2,
+                    title: '修改加班记录',
+                    shadeClose: true,
+                    shade: 0.3,
+                    area: ['600px', '300px'],
+                    content: '/html/editDataGrid.html',
                 });
+                // layer.prompt({
+                //     formType: 2
+                //     , value: data.email
+                // }, function (value, index) {
+                //     obj.update({
+                //         email: value
+                //     });
+                //     layer.close(index);
+                // });
             }
         });
 

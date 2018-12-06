@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>员工加班管理系统</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /*#current_user:hover + .layui-nav-child {*/
+        /*display: inline-block;*/
+        /*background-color: grey;*/
+        /*top: 30px;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<form class="layui-form" action="http://172.18.31.12:8888/employee" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label" for="employee_id">id</label>
+        <div class="layui-input-block">
+            <input type="text" name="employee_id" lay-verify="title" autocomplete="off" placeholder=""
+                   class="layui-input" id="employee_id">
+        </div>
+        <label class="layui-form-label" for="employee_name">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="employee_name" lay-verify="title" autocomplete="off" placeholder=""
+                   class="layui-input" id="employee_name">
+        </div>
+        <label class="layui-form-label" for="sex">性别</label>
+        <div class="layui-input-block">
+            <input type="text" name="sex" lay-verify="title" autocomplete="off" placeholder=""
+                   class="layui-input" id="sex">
+        </div>
+        <button class="layui-btn" ><i class="layui-icon">&#xe608;</i>
+            修改
+        </button>
+
+    </div>
+</form>
+<script>
+    layui.use(['jquery'], function () {
+
+
+        function Employee(json) {
+            this.employee_id = json.employee_id;
+            this.employee_name = json.employee_name;
+            this.sex = json.sex;
+        }
+
+        let $ = layui.jquery;
+
+        console.info($('#hidden', parent.document).val());
+
+        let json = JSON.parse($('#hidden', parent.document).val());
+
+        let employee = new Employee(json);
+
+        console.log(JSON.stringify(employee));
+
+        $("input[name=employee_id]").val(employee.employee_id);
+        $("input[name=employee_name]").val(employee.employee_name);
+        $("input[name=sex]").val(employee.sex);
+
+    })
+</script>
+
+</body>
+</html>
