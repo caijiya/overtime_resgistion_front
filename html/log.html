@@ -55,11 +55,16 @@
 </body>
 </html>
 <script>
-    layui.use(['laytpl', 'jquery', 'layer'], function () {
+    layui.use(['laytpl', 'jquery', 'layer','element'], function () {
         let laytpl = layui.laytpl;
         let $ = layui.jquery;
         let layer = layui.layer;
         let username = $.cookie("username");
+        let element = layui.element;
+        //导航栏的hover效果依赖element模块
+        element.on('nav(nav)', function (elem) {
+            return;
+        });
         console.log(username)
         $("#user").text(b64DecodeUnicode(username.replace(" ", "+")));
         $.ajax({
@@ -99,7 +104,7 @@
         <div class="layui-timeline-content layui-text" style="color: #FF5722 ">
             <h4 class="layui-timeline-title" style="color: #1E9FFF">{{ item.starttime || '未知'}}&nbsp;至&nbsp;{{
                 item.endtime || '未知'}}&nbsp;&nbsp;
-                <b>{{item.employee_name}}</b>
+                <b>{{item.employee.employee_name}}</b>
             </h4>
             <p style="font-size: 28px">
                 加班:&nbsp;&nbsp; {{item.overtime_hours}}小时，原因:&nbsp;&nbsp;{{item.overtime_reason || '无'}}

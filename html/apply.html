@@ -123,11 +123,16 @@
 </body>
 </html>
 <script>
-    layui.use(['form', 'laydate', 'jquery', 'layer'], function () {
+    layui.use(['form', 'laydate', 'jquery', 'layer', 'element'], function () {
         let form = layui.form;
         let layDate = layui.laydate;
         let $ = layui.jquery;
         let layer = layui.layer;
+        let element = layui.element;
+        //导航栏的hover效果依赖element模块
+        element.on('nav(nav)', function (elem) {
+            return;
+        });
 
         //日期
         layDate.render({

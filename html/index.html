@@ -21,7 +21,9 @@
 <div class="layui-container">
     <div class="layui-row">
         <ul class="layui-nav" lay-filter="nav">
-            <li class="layui-nav-item" style="margin-left: 20px"><p style="font-size: 20px;color: #007DDB">加班管理系统</p>
+            <li class="layui-nav-item" id="overtime" style="margin-left: 20px"><p
+                    style="font-size: 20px;color: #007DDB">
+                加班管理系统</p>
             </li>
             <li class="layui-nav-item layui-this" style="margin-left: 50px"><a href="/html/index.html">加班概览</a></li>
             <li class="layui-nav-item "><a href="/html/apply.html">加班申请</a></li>
@@ -46,7 +48,7 @@
     <div class="demoTable">
         搜索姓名：
         <div class="layui-inline">
-            <input class="layui-input" name="name" id="name" autocomplete="off">
+            <input class="layui-input" name="employee_name" id="employee_name" autocomplete="off">
         </div>
         &nbsp;&nbsp;&nbsp;搜索性别：
         <div class="layui-inline">
@@ -187,14 +189,14 @@
 
         let active = {
             reload: function () {
-                let name = $('#name');
+                let name = $('#employee_name');
                 let sex = $('#sex');
                 table.reload('testReload', {
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     , where: {
-                        name: name.val()
+                        employee_name: name.val()
                         , sex: sex.val()
                     }
                 })
