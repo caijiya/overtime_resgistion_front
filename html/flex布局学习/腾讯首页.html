@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <title>腾讯首页</title>
     <link rel="stylesheet" href="Tx.css">
+    <!--<link rel="stylesheet" href="images/icons/iconfont.css">-->
 </head>
 <body>
 <main>
+    <!--<i class="iconfont icon-up-circle"></i>-->
+    <!--<i class="iconfont icon-down-circle"></i>-->
     <header>
         <a href="/">
             <img src="//mat1.gtimg.com/pingjs/ext2020/qqindex2018/dist/img/qq_logo_2x.png" alt="腾讯首页" width="131px"
@@ -14,25 +17,60 @@
         </a>
         <section>
             <div>
-                网页
+                <span style="font-size: 14px" id="searchSellected">图片
+                    <!--<i class="iconfont icon-down-circle"></i></span>-->
+                    <!--<i class="iconfont">&#xe785;</i>-->
+                <i class="iconfont" id="up">&#xe77f;</i>
+                </span>
                 <ul id="childList">
-                    <li>111</li>
-                    <li>222</li>
-                    <li>333</li>
+                    <li><a href="#">咨询</a></li>
+                    <li><a href="#">排榜</a></li>
+                    <li><a href="#">影院</a></li>
+                    <li><a href="#">精英</a></li>
+                    <li><a href="#">加站</a></li>
+                    <li><a href="#">学堂</a></li>
                 </ul>
             </div>
-            <input type="text" name="w">
-            <input type="button" value="搜狗搜索">
+            <!--<input type="text" name="w">-->
+            <div style="width: 300px;height: 32px;border: 1px solid red"></div>
+            <input type="button" value="搜狗搜索" id="searchButton" style="width:80px; height:32px">
         </section>
-        <div>
-            <img src="images/kongjian.png" alt="">
-            <img src="images/kongjian.png" alt="">
-            <img src="images/kongjian.png" alt="">
+        <div id="rightAside">
+            <div class="item"><i class="iconfont" style="font-size: 34px">&#xe60c;</i></div>
+            <div class="item"><i class="iconfont" style="font-size: 34px">&#xe602;</i></div>
+            <div class="item"><i><a href="#" id="login">登陆</a></i></div>
+
+
+            <!--<i class="iconfont">&#xe77f;</i>-->
         </div>
     </header>
     <nav>
+        <a href="#" class="firstA">新闻</a>
+        <a href="#">视频</a>
+        <a href="#">图片</a>
+        <a href="#">军事</a>
+        <a href="#">体育</a>
+        <a href="#">NBA</a>
+        <a href="#">娱乐</a>
+        <a href="#">财经</a>
+        <a href="#">科技</a>
+        <a href="#">时尚</a>
+        <a href="#">汽车</a>
+        <a href="#">房产</a>
+        <a href="#">教育</a>
+        <a href="#">文化</a>
+        <a href="#">游戏</a>
+        <a href="#">星座</a>
+        <a href="#" class="lastA">更多<i class="iconfont">&#xe77f;</i></a>
 
     </nav>
 </main>
+
+
 </body>
 </html>
+<!--<script>-->
+    <!--document.getElementById("#searchSellected").onmouseenter = function () {-->
+        <!--alert(1)-->
+    <!--}-->
+</script>
