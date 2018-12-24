@@ -1,0 +1,53 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    width: 1400px;
+    margin: auto;
+}
+
+header {
+    height: 80px;
+    background-color: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+section {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+header section div {
+    width: 100px;
+    height: 32px;
+    border-radius: 20px;
+    background-image: url("images/down.png");
+    border-right: none;
+    color: #404040;
+    line-height: 32px;
+    text-align: center;
+}
+
+header section div:hover {
+    background-image: url("images/up.png");
+
+}
+
+header section div ul {
+    list-style: none;
+    display: none;
+}
+
+header section div:hover > #childList {
+    /*list-style: none;*/
+    display: block;
+}
+
+nav {
+    display: flex;
+}
