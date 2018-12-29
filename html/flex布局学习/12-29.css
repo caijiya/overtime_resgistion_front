@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.layout {
+    width: 1440px;
+    margin: 0 auto;
+    background-color: #1479d7;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    justify-content: center;
+}
+
+nav ul {
+    width: 1246px;
+    list-style: none;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+
+}
+
+nav ul li a {
+    color: #FFF;
+    font-size: 18px;
+}
+
+nav ul li:first-of-type {
+}
+
+nav ul li:last-of-type {
+    margin-right: 20px;
+}
+
+nav .plist li:hover {
+    padding: 5px;
+    background-color: #cbe1ed;
+}
+
+.nav-more {
+    position: relative;
+    width: 80px;
+    height: 50px;
+    text-align: center;
+    background: url("http://mat1.gtimg.com/pingjs/ext2020/qqindex2018/dist/img/nav_arr.png") no-repeat 68px 22px;
+}
+
+.nav-more:hover .sub-div{
+    display: block;
+}
+
+.nav-more span {
+    font-size: 18px;
+    color: #FFF;
+    line-height: 50px;
+}
+
+.nav-more:hover {
+    background: url("http://mat1.gtimg.com/pingjs/ext2020/qqindex2018/dist/img/nav_arr.png") no-repeat 68px -9px;
+}
+
+.sub-div {
+    box-sizing: border-box;
+    width: 1440px;
+    position: absolute;
+    top: 50px;
+    right: -56px;
+    background-color: #f9fbfc;
+    display: none;
+}
+
+.nav-sublist {
+    border: 1px solid #dfdfdf;
+    justify-content: space-between;
+    border-top: none;
+    height: 50px;
+    width: 100%;
+
+}
+
+.nav-sublist:first-of-type {
+    border-bottom: none;
+}
+
+.nav-sublist li {
+    width: 79px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.nav-sublist li a {
+    color: #455569;
+    font-size: 18px;
+}
+
+.nav-more .nav-sublist li:nth-of-type(1) {
+    margin-left: 33px;
+}
+
+.nav-more .nav-sublist li:last-of-type {
+    margin-right: 57px;
+}
+
+.nav-item {
+    width: 79px;
+    text-align: center;
+
+}
+
+.nav-sublist li:hover a {
+    color: #0c82ff;
+}
+
+
+
+
