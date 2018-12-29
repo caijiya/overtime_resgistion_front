@@ -16,15 +16,15 @@
                  height="37px"/>
         </a>
         <section>
-            <div>
+            <div style="position: relative">
                 <span style="font-size: 14px" id="searchSellected">图片
                     <!--<i class="iconfont icon-down-circle"></i></span>-->
                     <!--<i class="iconfont">&#xe785;</i>-->
                 <i class="iconfont" id="up">&#xe77f;</i>
                 </span>
-                <ul id="childList">
-                    <li><a href="#">咨询</a></li>
-                    <li><a href="#">排榜</a></li>
+                <ul id="childList" style="position: absolute">
+                    <li><a href="#">网页</a></li>
+                    <li class="currentItem"><a href="#">网页</a></li>
                     <li><a href="#">影院</a></li>
                     <li><a href="#">精英</a></li>
                     <li><a href="#">加站</a></li>
@@ -61,7 +61,15 @@
         <a href="#">文化</a>
         <a href="#">游戏</a>
         <a href="#">星座</a>
-        <a href="#" class="lastA">更多<i class="iconfont">&#xe77f;</i></a>
+
+
+        <!--<ul>-->
+        <!--<li>111</li>-->
+        <!--<li>111</li>-->
+        <!--<li>111</li>-->
+        <!--<li>111</li>-->
+        <!--</ul>-->
+
 
     </nav>
 </main>
@@ -69,8 +77,13 @@
 
 </body>
 </html>
-<!--<script>-->
-    <!--document.getElementById("#searchSellected").onmouseenter = function () {-->
-        <!--alert(1)-->
-    <!--}-->
+<script>
+
+    for (let i = 9 ; i >= 0; i--) {
+        for (let j = i - 1; j >= 0; j--) {
+            console.log(i +""+ j)
+        }
+    }
+
+
 </script>

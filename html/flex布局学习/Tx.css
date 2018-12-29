@@ -9,6 +9,10 @@ main {
     margin: auto;
 }
 
+ul {
+    list-style: none;
+}
+
 @font-face {
     font-family: 'iconfont';  /* project id 980709 */
     src: url('//at.alicdn.com/t/font_980709_27q42c41oxy.eot');
@@ -57,7 +61,6 @@ header section div {
     width: 56px;
     height: 32px;
     border-radius: 20px;
-    /*background-image: url("images/down-circle.png");*/
     border-right: none;
     color: #404040;
     line-height: 32px;
@@ -65,35 +68,39 @@ header section div {
 }
 
 header section div:hover {
-    /*background-image: url("images/up.png");*/
 
 }
 
-ul li a {
+#childList li {
     display: block;
+    width: 60px;
+    height: 29px;
+}
+
+#childList li a {
+    display: inline-block;
     text-decoration: none;
     color: #777;
     background: #fff;
-    padding: 5px;
-    /*border: 1px solid #ccc;*/
-    border-bottom: 0;
+    /*padding: 5px 5px 6px 5px;*/
     width: 60px;
     font-size: 14px;
-    height: 18px;
+    height: 28px;
+    marrgin: 0 auto;
 }
 
-ul li a:hover {
-    /*border-bottom: 5px;*/
-    /*border-bottom-color: #0C0C0C;*/
+#childList li a:hover {
+    border-bottom: 2px solid red;
 }
 
 header section div ul {
+    z-index: 999;
     list-style: none;
     /*display: none;*/
     display: block;
-    position: relative;
-    top: -14px;
-    left: -58px;
+    /*position: relative;*/
+    top: 10px;
+    left: -53px;
 
 }
 
@@ -127,7 +134,7 @@ input {
 }
 
 #childList {
-
+    display: none;
 }
 
 header section div:hover > #childList {
@@ -153,8 +160,23 @@ nav a {
     margin-left: 20px;
 }
 
+#more {
+    position: relative;
+}
+
 .lastA {
+    display: block;
     margin-right: 20px;
+    position: relative;
+
+}
+
+.more-sub-list {
+    display: flex;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    flex-direction: row;
 }
 
 /*main nav a {*/
